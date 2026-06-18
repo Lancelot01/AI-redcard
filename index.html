@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>撿紅牌 v2.2 計分修正版</title>
+<style>
+:root{
+  --bg:#062c22;--table:#0d5a3b;--table2:#0a4932;--gold:#e7c76a;--gold2:#a98c42;--panel:#06281f;--panel2:#092f25;
+  --text:#fff3bd;--muted:#d9cca0;--red:#d82e2e;--black:#151515;--card:#fffdf2;--blue:#7bd3ff;
+}
+*{box-sizing:border-box} body{margin:0;background:#031912;color:var(--text);font-family:"Microsoft JhengHei",system-ui,sans-serif;overflow:hidden;}
+#game{width:1920px;height:1080px;margin:0 auto;background:radial-gradient(circle at center,#14734c 0,#083b2c 58%,#031b14 100%);position:relative;transform-origin:top left;}
+.header{height:86px;display:flex;align-items:center;justify-content:center;gap:22px;background:linear-gradient(#0c4c38,#082f24);border-bottom:3px solid rgba(231,199,106,.55);}
+.title{font-size:40px;font-weight:900;letter-spacing:8px;text-shadow:0 3px 4px #000}.toolbar{position:absolute;top:92px;left:30px;right:30px;height:66px;border:2px solid var(--gold2);border-radius:18px;background:rgba(3,31,23,.88);display:flex;align-items:center;justify-content:center;gap:16px;z-index:20}
+select,button{height:46px;border-radius:10px;border:2px solid var(--gold);background:#2a1506;color:#fff3bd;font-weight:800;font-size:20px;padding:0 18px;box-shadow:0 2px 0 #000;}
+button{cursor:pointer}button:hover{filter:brightness(1.15)}button:disabled{opacity:.45;cursor:not-allowed}.speed{display:flex;align-items:center;gap:8px;font-weight:800;font-size:18px}.speed input{width:160px}
+.side{position:absolute;top:180px;bottom:22px;width:305px;border:2px solid var(--gold2);border-radius:18px;background:rgba(2,31,23,.9);padding:18px;overflow:hidden}.left{left:18px}.right{right:18px}.side h2{margin:0 0 12px;color:#ffe27e;font-size:27px}.rule{font-size:18px;line-height:1.55;color:var(--muted)}
+.scoreRow{display:grid;grid-template-columns:34px 1fr 66px 52px;align-items:center;gap:8px;padding:8px 7px;margin:7px 0;border:1px solid rgba(231,199,106,.35);border-radius:10px;background:rgba(255,255,255,.035);font-size:19px}.scoreRow.active{outline:3px solid #78ef9d;background:rgba(120,239,157,.12)}.scoreRow .rank{color:#ffe27e;font-weight:900}.scoreRow .name{font-weight:900}.scoreRow .score{font-weight:900;text-align:right}.scoreRow .cards{text-align:right;color:#d8d0aa}
+.log{height:770px;overflow:auto;font-size:17px;line-height:1.48;padding-right:8px}.log div{padding:6px 0;border-bottom:1px dashed rgba(255,255,255,.12)}.log .hot{color:#ffdf63;font-weight:900}.log .danger{color:#ff8f8f}
+.table{position:absolute;left:350px;right:350px;top:170px;bottom:22px;border:8px solid rgba(231,199,106,.75);border-radius:42px;background:radial-gradient(circle at center,var(--table) 0,var(--table2) 72%);box-shadow:inset 0 0 60px rgba(0,0,0,.5)}
+.tableInner{position:absolute;inset:24px;border:3px dashed rgba(255,255,255,.15);border-radius:34px}.centerArea{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:650px;height:360px;display:flex;align-items:center;justify-content:center;gap:28px}.deckBox{width:160px;height:230px;border:3px solid rgba(255,255,255,.18);border-radius:22px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(0,0,0,.15)}.deckStack{position:relative;width:94px;height:132px;margin-bottom:16px}.back{position:absolute;width:82px;height:118px;border-radius:10px;border:3px solid #e8d698;background:repeating-linear-gradient(45deg,#8b1111 0 12px,#ca842c 12px 18px);box-shadow:0 4px 8px #0008}.back:nth-child(1){left:0;top:10px}.back:nth-child(2){left:7px;top:5px}.back:nth-child(3){left:14px;top:0}.deckCount{font-size:24px;font-weight:900}.seaBox{width:430px;min-height:250px;border:3px solid rgba(255,255,255,.18);border-radius:22px;background:rgba(0,0,0,.12);padding:18px}.seaTitle{font-size:24px;font-weight:900;color:#ffe27e;margin-bottom:12px}.seaCards{display:flex;flex-wrap:wrap;gap:10px;align-content:flex-start}
+.playerSpot{position:absolute;border:2px solid rgba(231,199,106,.35);border-radius:18px;background:rgba(0,24,18,.66);padding:10px 12px;box-shadow:0 3px 16px #0006}.p-bottom{left:48px;right:48px;bottom:22px;height:142px}.p-top{left:280px;right:280px;top:22px;height:118px}.p-left{left:28px;top:240px;width:210px;height:330px}.p-right{right:28px;top:240px;width:210px;height:330px}.p-extra1{left:70px;top:72px;width:190px;height:120px}.p-extra2{right:70px;top:72px;width:190px;height:120px}.pName{font-size:23px;font-weight:900;color:#ffe27e;display:flex;justify-content:space-between}.pInfo{font-size:18px;color:#e7dfb4;margin:4px 0 8px}.hand{display:flex;gap:9px;flex-wrap:wrap;align-items:center}.p-top .hand,.p-bottom .hand{justify-content:center}.p-left .hand,.p-right .hand{justify-content:center}.miniBack{width:44px;height:64px;border:2px solid #e8d698;border-radius:8px;background:repeating-linear-gradient(45deg,#821010 0 10px,#c47a28 10px 16px)}
+.card{width:82px;height:118px;background:var(--card);border:2px solid #ddd;border-radius:10px;box-shadow:0 4px 8px #0008;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:8px;font-size:28px;font-weight:900;color:var(--black);user-select:none;position:relative}.card.red{color:var(--red)}.card.small{width:68px;height:98px;font-size:23px;padding:6px}.card.clickable{cursor:pointer;transition:.12s}.card.clickable:hover{transform:translateY(-12px);box-shadow:0 10px 18px #000b;outline:3px solid #ffe27e}.card .rank{align-self:flex-start}.card .suit{font-size:36px}.card .scoreBadge{position:absolute;right:4px;bottom:4px;background:#0a3627;color:#ffe27e;border-radius:9px;padding:1px 5px;font-size:13px}.joker{font-size:20px;color:#7d1d9c}.message{position:absolute;left:50%;top:166px;transform:translateX(-50%);background:rgba(0,0,0,.55);border:2px solid rgba(231,199,106,.6);border-radius:20px;padding:12px 26px;font-size:24px;font-weight:900;z-index:19}.thinking{animation:pulse 1s infinite}@keyframes pulse{50%{filter:brightness(1.6);transform:scale(1.02)}}
+.modal{position:absolute;inset:0;background:rgba(0,0,0,.72);display:none;align-items:center;justify-content:center;z-index:50}.modal.show{display:flex}.modalBox{width:820px;max-height:760px;overflow:auto;background:#06281f;border:4px solid var(--gold);border-radius:24px;padding:28px;box-shadow:0 0 40px #000}.modalBox h1{margin-top:0;color:#ffe27e}.settlement{font-size:23px;line-height:1.7}.win{color:#8dff9d;font-weight:900}.lose{color:#ff9999;font-weight:900}.tie{color:#ffe27e;font-weight:900}.floating{position:absolute;pointer-events:none;font-size:28px;font-weight:900;color:#ffe27e;text-shadow:0 2px 4px #000;animation:floatUp 1.2s forwards}@keyframes floatUp{to{transform:translateY(-60px);opacity:0}}
+.choicePanel{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:760px;min-height:250px;background:rgba(3,30,22,.96);border:4px solid var(--gold);border-radius:24px;box-shadow:0 0 40px #000;z-index:45;padding:22px;text-align:center;display:none}.choicePanel.show{display:block}.choiceTitle{font-size:28px;font-weight:900;color:#ffe27e;margin-bottom:16px}.choiceCards{display:flex;justify-content:center;gap:18px;flex-wrap:wrap}.choiceItem{padding:10px;border:3px solid rgba(231,199,106,.55);border-radius:16px;background:rgba(255,255,255,.06);cursor:pointer;transition:.12s}.choiceItem:hover{transform:translateY(-8px);border-color:#fff08a;background:rgba(255,224,126,.16)}.choiceHint{font-size:19px;color:#ddd0a0;margin-top:14px}
+</style>
+</head>
+<body>
+<div id="game">
+  <div class="header"><div class="title">撿紅牌 v2.2</div></div>
+  <div class="toolbar">
+    <label>模式 <select id="modeSelect"></select></label>
+    <button id="newBtn">新局開始</button><button id="fastBtn">AI快轉一回合</button><button id="endBtn">快轉到結束</button>
+    <label class="speed">AI思考速度 <input id="speedRange" type="range" min="700" max="2600" value="1500" step="100"><span id="speedText">1.5秒</span></label>
+  </div>
+  <div class="side left"><h2>即時排名</h2><div id="scoreBoard"></div><hr style="border-color:#8a743a55"><div class="rule" id="ruleBox"></div></div>
+  <div class="side right"><h2>紀錄</h2><div class="log" id="log"></div></div>
+  <div class="table">
+    <div class="tableInner"></div>
+    <div id="spots"></div>
+    <div class="centerArea">
+      <div class="deckBox"><div class="deckStack"><div class="back"></div><div class="back"></div><div class="back"></div></div><div class="deckCount" id="deckCount">剩餘 0</div></div>
+      <div class="seaBox"><div class="seaTitle">四周可撿牌 / 海底牌</div><div class="seaCards" id="seaCards"></div></div>
+    </div>
+    <div class="message" id="message">選擇模式後按「新局開始」。</div>
+  </div>
+  <div class="choicePanel" id="choicePanel"><div class="choiceTitle" id="choiceTitle"></div><div class="choiceCards" id="choiceCards"></div><div class="choiceHint">規則：有牌可吃時必須擇一吃牌。</div></div>
+  <div class="modal" id="modal"><div class="modalBox"><h1>當局結算</h1><div class="settlement" id="settlement"></div><button onclick="closeModal()">關閉</button><button onclick="newGame()">再來一局</button></div></div>
+</div>
+<script>
+const suits=[['heart','♥',true],['diamond','♦',true],['spade','♠',false],['club','♣',false]];
+const ranks=['A','2','3','4','5','6','7','8','9','10','J','Q','K'];
+const MODES={
+ two:{name:'二人規則',players:2,hand:12,sea:4,jokers:0,total:210,std:105,blackA:'none',spadeA:0,clubA:0,doubleRedFive:0,black8:0,desc:'2人｜手牌12｜黑牌0分｜總分210｜標準105'},
+ threeNo:{name:'三人規則（黑A不計）',players:3,hand:8,sea:4,jokers:0,total:210,std:70,blackA:'none',spadeA:0,clubA:0,doubleRedFive:0,black8:0,desc:'3人｜手牌8｜黑A不計｜總分210｜標準70'},
+ threeBlack:{name:'三人規則（黑A計分）',players:3,hand:8,sea:4,jokers:0,total:270,std:90,blackA:'all30',spadeA:30,clubA:30,doubleRedFive:0,black8:0,desc:'3人｜手牌8｜黑A30｜總分270｜標準90'},
+ four:{name:'四人規則',players:4,hand:6,sea:4,jokers:0,total:280,std:70,blackA:'split',spadeA:30,clubA:40,doubleRedFive:20,black8:0,desc:'4人｜手牌6｜黑桃A30｜梅花A40｜雙紅五各扣20'}
+};
+let state=null, busy=false, aiDelay=1500;
+const $=id=>document.getElementById(id);function sleep(ms){return new Promise(r=>setTimeout(r,ms))}
+function init(){for(const k in MODES){let o=document.createElement('option');o.value=k;o.textContent=MODES[k].name;$('modeSelect').appendChild(o)}$('newBtn').onclick=newGame;$('fastBtn').onclick=()=>runUntilHuman();$('endBtn').onclick=()=>autoEnd();$('speedRange').oninput=e=>{aiDelay=+e.target.value;$('speedText').textContent=(aiDelay/1000).toFixed(1)+'秒'};renderEmpty()}init();
+function makeDeck(jokers=0){let d=[];for(const [s,mark,red] of suits)for(const r of ranks)d.push({suit:s,mark,red,rank:r,id:s+'_'+r});for(let i=1;i<=jokers;i++)d.push({suit:'joker',mark:'🃏',red:false,rank:'JOKER',id:'joker_'+i,joker:true});return shuffle(d)}
+function shuffle(a){for(let i=a.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function playerName(i){return i===0?'你':'AI'+i}
+function newGame(){const mode=MODES[$('modeSelect').value];let deck=makeDeck(mode.jokers);let players=[];for(let i=0;i<mode.players;i++)players.push({name:playerName(i),hand:[],captured:[],score:0,bonus:0,black8Shown:false});for(let c=0;c<mode.hand;c++)for(let p=0;p<mode.players;p++)players[p].hand.push(deck.pop());let sea=[];for(let i=0;i<mode.sea;i++)sea.push(deck.pop());state={mode,deck,players,sea,turn:0,started:true,ended:false,lastAction:''};$('modal').classList.remove('show');clearLog();log('新局開始：'+mode.name);if(mode.black8){checkBlack8Opening()}recalcScores();render();if(state.turn!==0)runUntilHuman();}
+function checkBlack8Opening(){ // 簡化：尾家手牌或海底若有黑8，視為亮出一次獎勵
+ const tail=state.players[state.players.length-1]; const c=[...tail.hand,...state.sea].find(x=>!x.red&&!x.joker&&x.rank==='8'); if(c){applyTransfer(tail, state.mode.black8, '尾家亮黑8獎勵');tail.black8Shown=true;}}
+function renderEmpty(){renderModeRule(MODES[$('modeSelect').value]);$('modeSelect').onchange=()=>renderModeRule(MODES[$('modeSelect').value])}
+function renderModeRule(m){$('ruleBox').innerHTML=`<b>${m.name}</b><br>${m.desc}<br><br>吃牌：A吃9、2吃8、3吃7、4吃6、5吃5、10/J/Q/K同點吃。<br><br>紅A20，紅2~8照點，紅9~K各10。`}
+function render(){if(!state)return;renderModeRule(state.mode);$('deckCount').textContent='剩餘 '+state.deck.length;renderSea();renderSpots();renderScores();}
+function renderSea(){const box=$('seaCards');box.innerHTML='';state.sea.forEach((c,i)=>{let el=cardEl(c,'small');el.title='海底牌';box.appendChild(el)})}
+function cardEl(c,cls=''){let d=document.createElement('div');d.className='card '+(c.red?'red ':'')+cls+(c.joker?' joker':'');d.innerHTML=c.joker?`<div class="rank">JOKER</div><div class="suit">🃏</div><div></div>`:`<div class="rank">${c.rank}</div><div class="suit">${c.mark}</div><div class="scoreBadge">${cardScore(c,state?.mode||MODES.four)}</div>`;return d}
+function renderSpots(){let spots=$('spots');spots.innerHTML='';const n=state.players.length;const classes=n===2?['p-bottom','p-top']:n===3?['p-bottom','p-left','p-right']:n===4?['p-bottom','p-left','p-top','p-right']:['p-bottom','p-left','p-top','p-right','p-extra1'];state.players.forEach((p,i)=>{let spot=document.createElement('div');spot.className='playerSpot '+classes[i]+(i===state.turn?' thinking':'');let info=`<div class="pName"><span>${p.name}</span><span>${p.score}分</span></div><div class="pInfo">手牌 ${p.hand.length}｜已收 ${p.captured.length}</div><div class="hand"></div>`;spot.innerHTML=info;let hand=spot.querySelector('.hand');if(i===0){p.hand.forEach((c,idx)=>{let el=cardEl(c);el.classList.add('clickable');el.onclick=()=>humanPlay(idx);hand.appendChild(el)})}else{p.hand.forEach(()=>{let b=document.createElement('div');b.className='miniBack';hand.appendChild(b)})}spots.appendChild(spot)})}
+function renderScores(){let arr=state.players.map((p,i)=>({p,i})).sort((a,b)=>b.p.score-a.p.score);$('scoreBoard').innerHTML=arr.map((x,idx)=>`<div class="scoreRow ${x.i===state.turn?'active':''}"><div class="rank">${idx+1}</div><div class="name">${x.p.name}</div><div class="score">${x.p.score}</div><div class="cards">${x.p.hand.length}張</div></div>`).join('')}
+function clearLog(){$('log').innerHTML=''}function log(t,cls=''){let d=document.createElement('div');d.className=cls;d.textContent=t;$('log').prepend(d)}function msg(t){$('message').textContent=t}
+function rankVal(r){if(r==='A')return 1;if(['J','Q','K'].includes(r))return {J:11,Q:12,K:13}[r];if(r==='JOKER')return 0;return +r}
+function canEat(a,b){if(a.joker||b.joker)return false;let ra=a.rank,rb=b.rank;if(['10','J','Q','K'].includes(ra)||['10','J','Q','K'].includes(rb))return ra===rb;return rankVal(ra)+rankVal(rb)===10}
+function getEatOptions(card){let opts=[];state.sea.forEach((s,i)=>{if(canEat(card,s))opts.push(i)});return opts}
+function findEat(card){let opts=getEatOptions(card);if(!opts.length)return -1;opts.sort((ia,ib)=>cardScore(state.sea[ib],state.mode)-cardScore(state.sea[ia],state.mode));return opts[0]}
+function cardScore(c,m){if(!c||c.joker)return 0;if(c.red){if(c.rank==='A')return 20;if(['2','3','4','5','6','7','8'].includes(c.rank))return +c.rank;if(['9','10','J','Q','K'].includes(c.rank))return 10}if(c.rank==='A'){if(m.blackA==='all30')return 30;if(m.blackA==='split')return c.suit==='spade'?30:c.suit==='club'?40:0;if(m.blackA==='split30')return (c.suit==='spade'||c.suit==='club')?30:0}return 0}
+function recalcScores(){
+  state.players.forEach(p=>{
+    let base=p.captured.reduce((a,c)=>a+cardScore(c,state.mode),0);
+    let jokerBonus=0;
+    if(state.mode.jokerPair){
+      let jc=p.captured.filter(c=>c.joker).length;
+      if(jc>=2)jokerBonus=state.mode.jokerPair;
+    }
+    p.score=base+p.bonus+jokerBonus;
+  });
+
+  // 雙紅五計分修正：不在吃牌瞬間疊 bonus，改由目前收牌全局校正。
+  // 四人一般：同一人收齊兩張紅5時，兩張紅5總價值視為70分；其他玩家各扣20分。
+  // 四人規則：同一人收齊兩張紅5時，兩張紅5總價值視為 70 分，其他三家各扣20分。
+  if(state.mode.doubleRedFive){
+    const owner=state.players.find(p=>p.captured.filter(c=>c.red&&c.rank==='5').length>=2);
+    if(owner){
+      const originalPairScore=10; // ♥5 + ♦5 票面分
+      const totalPairValue=originalPairScore + state.mode.doubleRedFive*(state.players.length-1);
+      state.players.forEach(p=>{
+        if(p===owner){
+          p.score = p.score - originalPairScore + totalPairValue;
+        }else{
+          p.score -= state.mode.doubleRedFive;
+        }
+      });
+    }
+  }
+}
+async function humanPlay(idx){if(busy||!state||state.ended||state.turn!==0)return;busy=true;await playTurn(0,idx,false);busy=false;if(!state.ended)runUntilHuman()}
+async function runUntilHuman(){if(!state||state.ended||busy)return;busy=true;while(!state.ended&&state.turn!==0){await sleep(aiDelay+Math.random()*700);await playTurn(state.turn,null,true)}busy=false;render()}
+async function autoEnd(){if(!state||state.ended)return;busy=true;while(!state.ended){if(state.turn!==0)await sleep(160);await playTurn(state.turn,null,true)}busy=false}
+function aiChoose(p){let best=0,bv=-999;for(let i=0;i<p.hand.length;i++){let c=p.hand[i], eat=findEat(c), v=cardScore(c,state.mode);if(eat>=0)v+=cardScore(state.sea[eat],state.mode)+20;if(c.red&&c.rank==='5'&&eat>=0&&state.sea[eat].red&&state.sea[eat].rank==='5')v+=100;v+=Math.random()*3;if(v>bv){bv=v;best=i}}return best}
+async function playTurn(pi,idx=null,isAI=false){let p=state.players[pi];if(!p||p.hand.length===0){nextTurn();return}idx=idx??aiChoose(p);let played=p.hand.splice(idx,1)[0];msg(`${p.name} 打出 ${label(played)}`);log(`${p.name} 打出 ${label(played)}`);await stepCapture(p,played,'出牌',isAI);await sleep(350);if(state.deck.length){let drawn=state.deck.pop();msg(`${p.name} 翻出 ${label(drawn)}`);log(`${p.name} 翻出 ${label(drawn)}`);await stepCapture(p,drawn,'翻牌',isAI)}recalcScores();if(checkEnd())return;nextTurn();render()}
+async function stepCapture(p,card,src,isAI=false){let opts=getEatOptions(card);let eat=-1;if(opts.length===1){eat=opts[0]}else if(opts.length>1){if(p===state.players[0]&&!isAI){eat=await askEatChoice(card,opts,src)}else{opts.sort((ia,ib)=>cardScore(state.sea[ib],state.mode)-cardScore(state.sea[ia],state.mode));eat=opts[0]}}if(eat>=0){let target=state.sea.splice(eat,1)[0];p.captured.push(card,target);log(`${p.name} ${src} ${label(card)} 吃走 ${label(target)}`,'hot');if(isDoubleRedFive(card,target)&&state.mode.doubleRedFive){log(`雙紅五成立！結算校正：其他玩家各扣 ${state.mode.doubleRedFive} 分。`,'danger')}await sleep(420)}else{state.sea.push(card);log(`${label(card)} 無牌可吃，留在海底。`)}recalcScores();render()}
+function askEatChoice(card,opts,src){return new Promise(resolve=>{const panel=$('choicePanel'), title=$('choiceTitle'), cards=$('choiceCards');title.textContent=`${src} ${label(card)} 可吃多張牌，請選擇要吃哪一張`;cards.innerHTML='';opts.forEach(i=>{let item=document.createElement('div');item.className='choiceItem';let target=state.sea[i];item.appendChild(cardEl(target));let cap=document.createElement('div');cap.style.marginTop='8px';cap.style.fontWeight='900';cap.textContent=`吃 ${label(target)}｜${cardScore(target,state.mode)}分`;item.appendChild(cap);item.onclick=()=>{panel.classList.remove('show');cards.innerHTML='';resolve(i)};cards.appendChild(item)});panel.classList.add('show')})}
+function applyTransfer(winner,amount,reason){state.players.forEach(p=>{if(p!==winner){p.bonus-=amount;winner.bonus+=amount}});log(`${reason}：${winner.name} 收取每家 ${amount} 分`,'hot')}
+function isDoubleRedFive(a,b){return a.red&&b.red&&a.rank==='5'&&b.rank==='5'}function label(c){return c.joker?'🃏':c.mark+c.rank}
+function nextTurn(){state.turn=(state.turn+1)%state.players.length;msg(state.turn===0?'輪到你出牌':state.players[state.turn].name+' 思考中...')}
+function checkEnd(){let noHands=state.players.every(p=>p.hand.length===0);if(noHands&&state.deck.length===0){state.ended=true;recalcScores();render();settle();return true}return false}
+function settle(){let m=state.mode;let rows=state.players.map(p=>{let result=p.score>m.std?'<span class="win">勝</span>':p.score<m.std?'<span class="lose">負</span>':'<span class="tie">平標準</span>';return `<div>${p.name}：${p.score} 分（標準 ${m.std}） ${result}｜已收 ${p.captured.length} 張</div>`}).join('');$('settlement').innerHTML=`<b>${m.name}</b><br>總分規則：${m.total}｜標準分：${m.std}<hr>${rows}`;$('modal').classList.add('show');msg('當局結束')}
+function closeModal(){$('modal').classList.remove('show')}
+</script>
+</body>
+</html>
