@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>撿紅牌 v2.2 計分修正版</title>
+<title>撿紅牌</title>
 <style>
 :root{
   --bg:#062c22;--table:#0d5a3b;--table2:#0a4932;--gold:#e7c76a;--gold2:#a98c42;--panel:#06281f;--panel2:#092f25;
@@ -20,15 +20,20 @@ button{cursor:pointer}button:hover{filter:brightness(1.15)}button:disabled{opaci
 .log{height:770px;overflow:auto;font-size:17px;line-height:1.48;padding-right:8px}.log div{padding:6px 0;border-bottom:1px dashed rgba(255,255,255,.12)}.log .hot{color:#ffdf63;font-weight:900}.log .danger{color:#ff8f8f}
 .table{position:absolute;left:350px;right:350px;top:170px;bottom:22px;border:8px solid rgba(231,199,106,.75);border-radius:42px;background:radial-gradient(circle at center,var(--table) 0,var(--table2) 72%);box-shadow:inset 0 0 60px rgba(0,0,0,.5)}
 .tableInner{position:absolute;inset:24px;border:3px dashed rgba(255,255,255,.15);border-radius:34px}.centerArea{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:650px;height:360px;display:flex;align-items:center;justify-content:center;gap:28px}.deckBox{width:160px;height:230px;border:3px solid rgba(255,255,255,.18);border-radius:22px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(0,0,0,.15)}.deckStack{position:relative;width:94px;height:132px;margin-bottom:16px}.back{position:absolute;width:82px;height:118px;border-radius:10px;border:3px solid #e8d698;background:repeating-linear-gradient(45deg,#8b1111 0 12px,#ca842c 12px 18px);box-shadow:0 4px 8px #0008}.back:nth-child(1){left:0;top:10px}.back:nth-child(2){left:7px;top:5px}.back:nth-child(3){left:14px;top:0}.deckCount{font-size:24px;font-weight:900}.seaBox{width:430px;min-height:250px;border:3px solid rgba(255,255,255,.18);border-radius:22px;background:rgba(0,0,0,.12);padding:18px}.seaTitle{font-size:24px;font-weight:900;color:#ffe27e;margin-bottom:12px}.seaCards{display:flex;flex-wrap:wrap;gap:10px;align-content:flex-start}
-.playerSpot{position:absolute;border:2px solid rgba(231,199,106,.35);border-radius:18px;background:rgba(0,24,18,.66);padding:10px 12px;box-shadow:0 3px 16px #0006}.p-bottom{left:48px;right:48px;bottom:22px;height:142px}.p-top{left:280px;right:280px;top:22px;height:118px}.p-left{left:28px;top:240px;width:210px;height:330px}.p-right{right:28px;top:240px;width:210px;height:330px}.p-extra1{left:70px;top:72px;width:190px;height:120px}.p-extra2{right:70px;top:72px;width:190px;height:120px}.pName{font-size:23px;font-weight:900;color:#ffe27e;display:flex;justify-content:space-between}.pInfo{font-size:18px;color:#e7dfb4;margin:4px 0 8px}.hand{display:flex;gap:9px;flex-wrap:wrap;align-items:center}.p-top .hand,.p-bottom .hand{justify-content:center}.p-left .hand,.p-right .hand{justify-content:center}.miniBack{width:44px;height:64px;border:2px solid #e8d698;border-radius:8px;background:repeating-linear-gradient(45deg,#821010 0 10px,#c47a28 10px 16px)}
-.card{width:82px;height:118px;background:var(--card);border:2px solid #ddd;border-radius:10px;box-shadow:0 4px 8px #0008;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:8px;font-size:28px;font-weight:900;color:var(--black);user-select:none;position:relative}.card.red{color:var(--red)}.card.small{width:68px;height:98px;font-size:23px;padding:6px}.card.clickable{cursor:pointer;transition:.12s}.card.clickable:hover{transform:translateY(-12px);box-shadow:0 10px 18px #000b;outline:3px solid #ffe27e}.card .rank{align-self:flex-start}.card .suit{font-size:36px}.card .scoreBadge{position:absolute;right:4px;bottom:4px;background:#0a3627;color:#ffe27e;border-radius:9px;padding:1px 5px;font-size:13px}.joker{font-size:20px;color:#7d1d9c}.message{position:absolute;left:50%;top:166px;transform:translateX(-50%);background:rgba(0,0,0,.55);border:2px solid rgba(231,199,106,.6);border-radius:20px;padding:12px 26px;font-size:24px;font-weight:900;z-index:19}.thinking{animation:pulse 1s infinite}@keyframes pulse{50%{filter:brightness(1.6);transform:scale(1.02)}}
+.playerSpot{position:absolute;border:2px solid rgba(231,199,106,.35);border-radius:18px;background:rgba(0,24,18,.66);padding:10px 12px;box-shadow:0 3px 16px #0006}.p-bottom{left:24px;right:24px;bottom:18px;height:150px}.p-top{left:170px;right:170px;top:22px;height:122px}.p-left{left:28px;top:240px;width:210px;height:330px}.p-right{right:28px;top:240px;width:210px;height:330px}.p-extra1{left:70px;top:72px;width:190px;height:120px}.p-extra2{right:70px;top:72px;width:190px;height:120px}.pName{font-size:23px;font-weight:900;color:#ffe27e;display:flex;justify-content:space-between}.pInfo{font-size:18px;color:#e7dfb4;margin:4px 0 8px}.hand{display:flex;gap:9px;flex-wrap:wrap;align-items:center}.p-top .hand,.p-bottom .hand{justify-content:center}.p-bottom .hand{gap:7px;flex-wrap:nowrap;overflow:visible}.p-top .hand{gap:7px;flex-wrap:nowrap;overflow:visible}.p-left .hand,.p-right .hand{justify-content:center}.miniBack{width:44px;height:64px;border:2px solid #e8d698;border-radius:8px;background:repeating-linear-gradient(45deg,#821010 0 10px,#c47a28 10px 16px)}
+.card{width:82px;height:118px;background:var(--card);border:2px solid #ddd;border-radius:10px;box-shadow:0 4px 8px #0008;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:8px;font-size:28px;font-weight:900;color:var(--black);user-select:none;position:relative}.card.red{color:var(--red)}.card.small{width:68px;height:98px;font-size:23px;padding:6px}.card.clickable{cursor:pointer;transition:.12s}.card.clickable:hover{transform:translateY(-12px);box-shadow:0 10px 18px #000b;outline:3px solid #ffe27e}.card .rank{align-self:flex-start}.card .suit{font-size:36px}.card .scoreBadge{position:absolute;right:4px;bottom:4px;background:#0a3627;color:#ffe27e;border-radius:9px;padding:1px 5px;font-size:13px}.joker{font-size:20px;color:#7d1d9c}.message{position:absolute;left:50%;top:12px;transform:translateX(-50%);background:rgba(0,0,0,.38);border:2px solid rgba(231,199,106,.45);border-radius:18px;padding:7px 18px;font-size:20px;font-weight:900;z-index:19;pointer-events:none;opacity:0;transition:opacity .25s ease;white-space:nowrap}.message.show{opacity:.92}.thinking{animation:pulse 1s infinite}@keyframes pulse{50%{filter:brightness(1.6);transform:scale(1.02)}}
 .modal{position:absolute;inset:0;background:rgba(0,0,0,.72);display:none;align-items:center;justify-content:center;z-index:50}.modal.show{display:flex}.modalBox{width:820px;max-height:760px;overflow:auto;background:#06281f;border:4px solid var(--gold);border-radius:24px;padding:28px;box-shadow:0 0 40px #000}.modalBox h1{margin-top:0;color:#ffe27e}.settlement{font-size:23px;line-height:1.7}.win{color:#8dff9d;font-weight:900}.lose{color:#ff9999;font-weight:900}.tie{color:#ffe27e;font-weight:900}.floating{position:absolute;pointer-events:none;font-size:28px;font-weight:900;color:#ffe27e;text-shadow:0 2px 4px #000;animation:floatUp 1.2s forwards}@keyframes floatUp{to{transform:translateY(-60px);opacity:0}}
 .choicePanel{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:760px;min-height:250px;background:rgba(3,30,22,.96);border:4px solid var(--gold);border-radius:24px;box-shadow:0 0 40px #000;z-index:45;padding:22px;text-align:center;display:none}.choicePanel.show{display:block}.choiceTitle{font-size:28px;font-weight:900;color:#ffe27e;margin-bottom:16px}.choiceCards{display:flex;justify-content:center;gap:18px;flex-wrap:wrap}.choiceItem{padding:10px;border:3px solid rgba(231,199,106,.55);border-radius:16px;background:rgba(255,255,255,.06);cursor:pointer;transition:.12s}.choiceItem:hover{transform:translateY(-8px);border-color:#fff08a;background:rgba(255,224,126,.16)}.choiceHint{font-size:19px;color:#ddd0a0;margin-top:14px}
+
+
+.actionArea{position:absolute;inset:0;z-index:35;pointer-events:none;opacity:1}.actionTitle,.actionSub{display:none}.actionCards{position:absolute;inset:0}.actionCards .card{width:68px;height:98px;font-size:23px;padding:6px;box-shadow:0 12px 22px #000c}.seaCards .card.seaDim{opacity:1;filter:none}.floatCard{position:absolute;transition:transform .28s ease,opacity .28s ease}.targetFloat{transform:rotate(-7deg)}.playedFloat{transform:translate(12px,16px) rotate(5deg);animation:realStackHit .34s ease-out;z-index:4}.flipFloat{animation:flipIn .62s ease-out}.noEatFloat{animation:dealIn .28s ease-out, stayGlow .9s ease-out}.collecting{opacity:0!important;transform:translate(28px,-46px) scale(.35) rotate(14deg)!important}.miniToast{position:absolute;left:50%;top:92px;transform:translateX(-50%);font-size:23px;font-weight:900;color:#ffe27e;text-shadow:0 3px 6px #000;background:rgba(0,0,0,.38);border:2px solid rgba(255,226,126,.45);border-radius:18px;padding:5px 16px;opacity:0;animation:toastFade 1s ease forwards;white-space:nowrap}@keyframes toastFade{0%{opacity:0;transform:translateX(-50%) translateY(-10px)}15%,75%{opacity:1;transform:translateX(-50%) translateY(0)}100%{opacity:0;transform:translateX(-50%) translateY(-8px)}}@keyframes dealIn{0%{transform:translateY(-42px) scale(.8);opacity:0}100%{transform:translateY(0) scale(1);opacity:1}}@keyframes realStackHit{0%{transform:translate(58px,-32px) rotate(14deg) scale(.95);opacity:.55}100%{transform:translate(12px,16px) rotate(5deg) scale(1);opacity:1}}@keyframes stayGlow{0%,100%{filter:brightness(1)}50%{filter:brightness(1.55)}}@keyframes flipIn{0%{transform:rotateY(90deg) scale(.9);filter:brightness(.7)}55%{transform:rotateY(-12deg) scale(1.05);filter:brightness(1.45)}100%{transform:rotateY(0) scale(1)}}
+.bigEffect{position:absolute;inset:0;display:none;align-items:center;justify-content:center;z-index:80;background:rgba(80,0,0,.18);pointer-events:none}.bigEffect.show{display:flex;animation:redFlash 1.15s ease-out}.bigEffectBox{border:6px solid #ffe27e;border-radius:34px;background:linear-gradient(135deg,rgba(120,0,0,.95),rgba(40,0,0,.92));box-shadow:0 0 60px #ff3030, inset 0 0 36px rgba(255,226,126,.35);padding:44px 76px;text-align:center;animation:boom .85s ease-out}.bigEffectTitle{font-size:98px;letter-spacing:18px;font-weight:1000;color:#ffe27e;text-shadow:0 5px 0 #761515,0 0 24px #fff}.bigEffectSub{font-size:36px;font-weight:900;color:#fff0b0;margin-top:18px}.bigEffectScore{font-size:42px;font-weight:1000;color:#ffef8a;margin-top:12px}.table.shake{animation:shake .58s linear}@keyframes redFlash{0%{background:rgba(255,0,0,.55)}100%{background:rgba(80,0,0,.18)}}@keyframes boom{0%{transform:scale(.55) rotate(-2deg);opacity:0}55%{transform:scale(1.12) rotate(1deg);opacity:1}100%{transform:scale(1) rotate(0)}}@keyframes shake{0%,100%{transform:translate(0,0)}20%{transform:translate(-8px,4px)}40%{transform:translate(8px,-4px)}60%{transform:translate(-5px,-3px)}80%{transform:translate(5px,3px)}}
+
 </style>
 </head>
 <body>
 <div id="game">
-  <div class="header"><div class="title">撿紅牌 v2.2</div></div>
+  <div class="header"><div class="title">撿紅牌</div></div>
   <div class="toolbar">
     <label>模式 <select id="modeSelect"></select></label>
     <button id="newBtn">新局開始</button><button id="fastBtn">AI快轉一回合</button><button id="endBtn">快轉到結束</button>
@@ -36,8 +41,9 @@ button{cursor:pointer}button:hover{filter:brightness(1.15)}button:disabled{opaci
   </div>
   <div class="side left"><h2>即時排名</h2><div id="scoreBoard"></div><hr style="border-color:#8a743a55"><div class="rule" id="ruleBox"></div></div>
   <div class="side right"><h2>紀錄</h2><div class="log" id="log"></div></div>
-  <div class="table">
+  <div class="table" id="tableBoard">
     <div class="tableInner"></div>
+    <div class="actionArea" id="actionArea"><div class="actionTitle" id="actionTitle"></div><div class="actionSub" id="actionSub"></div><div class="actionCards" id="actionCards"></div></div>
     <div id="spots"></div>
     <div class="centerArea">
       <div class="deckBox"><div class="deckStack"><div class="back"></div><div class="back"></div><div class="back"></div></div><div class="deckCount" id="deckCount">剩餘 0</div></div>
@@ -47,6 +53,7 @@ button{cursor:pointer}button:hover{filter:brightness(1.15)}button:disabled{opaci
   </div>
   <div class="choicePanel" id="choicePanel"><div class="choiceTitle" id="choiceTitle"></div><div class="choiceCards" id="choiceCards"></div><div class="choiceHint">規則：有牌可吃時必須擇一吃牌。</div></div>
   <div class="modal" id="modal"><div class="modalBox"><h1>當局結算</h1><div class="settlement" id="settlement"></div><button onclick="closeModal()">關閉</button><button onclick="newGame()">再來一局</button></div></div>
+  <div class="bigEffect" id="bigEffect"><div class="bigEffectBox"><div class="bigEffectTitle">雙紅五！</div><div class="bigEffectSub" id="bigEffectSub"></div><div class="bigEffectScore">+70 / 其餘 -20</div></div></div>
 </div>
 <script>
 const suits=[['heart','♥',true],['diamond','♦',true],['spade','♠',false],['club','♣',false]];
@@ -63,22 +70,230 @@ function init(){for(const k in MODES){let o=document.createElement('option');o.v
 function makeDeck(jokers=0){let d=[];for(const [s,mark,red] of suits)for(const r of ranks)d.push({suit:s,mark,red,rank:r,id:s+'_'+r});for(let i=1;i<=jokers;i++)d.push({suit:'joker',mark:'🃏',red:false,rank:'JOKER',id:'joker_'+i,joker:true});return shuffle(d)}
 function shuffle(a){for(let i=a.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
 function playerName(i){return i===0?'你':'AI'+i}
-function newGame(){const mode=MODES[$('modeSelect').value];let deck=makeDeck(mode.jokers);let players=[];for(let i=0;i<mode.players;i++)players.push({name:playerName(i),hand:[],captured:[],score:0,bonus:0,black8Shown:false});for(let c=0;c<mode.hand;c++)for(let p=0;p<mode.players;p++)players[p].hand.push(deck.pop());let sea=[];for(let i=0;i<mode.sea;i++)sea.push(deck.pop());state={mode,deck,players,sea,turn:0,started:true,ended:false,lastAction:''};$('modal').classList.remove('show');clearLog();log('新局開始：'+mode.name);if(mode.black8){checkBlack8Opening()}recalcScores();render();if(state.turn!==0)runUntilHuman();}
+function newGame(){const mode=MODES[$('modeSelect').value];let deck=makeDeck(mode.jokers);let players=[];for(let i=0;i<mode.players;i++)players.push({name:playerName(i),hand:[],captured:[],score:0,bonus:0,black8Shown:false});for(let c=0;c<mode.hand;c++)for(let p=0;p<mode.players;p++)players[p].hand.push(deck.pop());let sea=[];for(let i=0;i<mode.sea;i++)sea.push(deck.pop());state={mode,deck,players,sea,turn:0,started:true,ended:false,lastAction:''};$('modal').classList.remove('show');$('bigEffect').classList.remove('show');clearActionArea();clearLog();log('新局開始：'+mode.name);if(mode.black8){checkBlack8Opening()}recalcScores();render();if(state.turn!==0)runUntilHuman();}
 function checkBlack8Opening(){ // 簡化：尾家手牌或海底若有黑8，視為亮出一次獎勵
  const tail=state.players[state.players.length-1]; const c=[...tail.hand,...state.sea].find(x=>!x.red&&!x.joker&&x.rank==='8'); if(c){applyTransfer(tail, state.mode.black8, '尾家亮黑8獎勵');tail.black8Shown=true;}}
 function renderEmpty(){renderModeRule(MODES[$('modeSelect').value]);$('modeSelect').onchange=()=>renderModeRule(MODES[$('modeSelect').value])}
 function renderModeRule(m){$('ruleBox').innerHTML=`<b>${m.name}</b><br>${m.desc}<br><br>吃牌：A吃9、2吃8、3吃7、4吃6、5吃5、10/J/Q/K同點吃。<br><br>紅A20，紅2~8照點，紅9~K各10。`}
 function render(){if(!state)return;renderModeRule(state.mode);$('deckCount').textContent='剩餘 '+state.deck.length;renderSea();renderSpots();renderScores();}
-function renderSea(){const box=$('seaCards');box.innerHTML='';state.sea.forEach((c,i)=>{let el=cardEl(c,'small');el.title='海底牌';box.appendChild(el)})}
+function renderSea(){const box=$('seaCards');box.innerHTML='';state.sea.forEach((c,i)=>{let el=cardEl(c,'small');el.title='海底牌';el.dataset.seaIndex=i;box.appendChild(el)})}
 function cardEl(c,cls=''){let d=document.createElement('div');d.className='card '+(c.red?'red ':'')+cls+(c.joker?' joker':'');d.innerHTML=c.joker?`<div class="rank">JOKER</div><div class="suit">🃏</div><div></div>`:`<div class="rank">${c.rank}</div><div class="suit">${c.mark}</div><div class="scoreBadge">${cardScore(c,state?.mode||MODES.four)}</div>`;return d}
 function renderSpots(){let spots=$('spots');spots.innerHTML='';const n=state.players.length;const classes=n===2?['p-bottom','p-top']:n===3?['p-bottom','p-left','p-right']:n===4?['p-bottom','p-left','p-top','p-right']:['p-bottom','p-left','p-top','p-right','p-extra1'];state.players.forEach((p,i)=>{let spot=document.createElement('div');spot.className='playerSpot '+classes[i]+(i===state.turn?' thinking':'');let info=`<div class="pName"><span>${p.name}</span><span>${p.score}分</span></div><div class="pInfo">手牌 ${p.hand.length}｜已收 ${p.captured.length}</div><div class="hand"></div>`;spot.innerHTML=info;let hand=spot.querySelector('.hand');if(i===0){p.hand.forEach((c,idx)=>{let el=cardEl(c);el.classList.add('clickable');el.onclick=()=>humanPlay(idx);hand.appendChild(el)})}else{p.hand.forEach(()=>{let b=document.createElement('div');b.className='miniBack';hand.appendChild(b)})}spots.appendChild(spot)})}
 function renderScores(){let arr=state.players.map((p,i)=>({p,i})).sort((a,b)=>b.p.score-a.p.score);$('scoreBoard').innerHTML=arr.map((x,idx)=>`<div class="scoreRow ${x.i===state.turn?'active':''}"><div class="rank">${idx+1}</div><div class="name">${x.p.name}</div><div class="score">${x.p.score}</div><div class="cards">${x.p.hand.length}張</div></div>`).join('')}
-function clearLog(){$('log').innerHTML=''}function log(t,cls=''){let d=document.createElement('div');d.className=cls;d.textContent=t;$('log').prepend(d)}function msg(t){$('message').textContent=t}
+function clearLog(){$('log').innerHTML=''}function log(t,cls=''){let d=document.createElement('div');d.className=cls;d.textContent=t;$('log').prepend(d)}let msgTimer=null;function msg(t){const m=$('message');m.textContent=t;m.classList.add('show');clearTimeout(msgTimer);msgTimer=setTimeout(()=>m.classList.remove('show'),1200)}
 function rankVal(r){if(r==='A')return 1;if(['J','Q','K'].includes(r))return {J:11,Q:12,K:13}[r];if(r==='JOKER')return 0;return +r}
 function canEat(a,b){if(a.joker||b.joker)return false;let ra=a.rank,rb=b.rank;if(['10','J','Q','K'].includes(ra)||['10','J','Q','K'].includes(rb))return ra===rb;return rankVal(ra)+rankVal(rb)===10}
 function getEatOptions(card){let opts=[];state.sea.forEach((s,i)=>{if(canEat(card,s))opts.push(i)});return opts}
 function findEat(card){let opts=getEatOptions(card);if(!opts.length)return -1;opts.sort((ia,ib)=>cardScore(state.sea[ib],state.mode)-cardScore(state.sea[ia],state.mode));return opts[0]}
 function cardScore(c,m){if(!c||c.joker)return 0;if(c.red){if(c.rank==='A')return 20;if(['2','3','4','5','6','7','8'].includes(c.rank))return +c.rank;if(['9','10','J','Q','K'].includes(c.rank))return 10}if(c.rank==='A'){if(m.blackA==='all30')return 30;if(m.blackA==='split')return c.suit==='spade'?30:c.suit==='club'?40:0;if(m.blackA==='split30')return (c.suit==='spade'||c.suit==='club')?30:0}return 0}
+
+function clearActionArea(){
+  const area=$('actionArea'), cards=$('actionCards');
+  if(cards) cards.innerHTML='';
+}
+function clearActionAfter(ms=260){setTimeout(()=>clearActionArea(),ms)}
+function getTableRelativeRect(el){
+  const tr=document.querySelector('.table').getBoundingClientRect();
+  const r=el.getBoundingClientRect();
+  return {left:r.left-tr.left, top:r.top-tr.top, width:r.width, height:r.height};
+}
+function actionCard(c, extra=''){
+  const el=cardEl(c,'small');
+  el.classList.add('floatCard');
+  if(extra) el.classList.add(extra);
+  return el;
+}
+function placeAt(el,pos,dx=0,dy=0){
+  el.style.left=(pos.left+dx)+'px';
+  el.style.top=(pos.top+dy)+'px';
+}
+function addToast(text,ms=1000){
+  const cards=$('actionCards');
+  const t=document.createElement('div');
+  t.className='miniToast';
+  t.textContent=text;
+  t.style.animationDuration=ms+'ms';
+  cards.appendChild(t);
+  setTimeout(()=>t.remove(),ms+80);
+}
+async function showSingleAction(title, sub, card, ms=650, flip=false){
+  clearActionArea();
+  const cards=$('actionCards');
+  const deck=document.querySelector('.deckBox');
+  const pos=getTableRelativeRect(deck);
+  const el=actionCard(card, flip?'flipFloat':'noEatFloat');
+  placeAt(el,{left:pos.left+pos.width/2-34,top:pos.top+22});
+  cards.appendChild(el);
+  addToast(sub||title,ms);
+  await sleep(ms);
+  el.classList.add('collecting');
+  await sleep(220);
+  clearActionArea();
+}
+async function showCaptureAction(p, card, target, seaIndex, src){
+  clearActionArea();
+  render();
+  const cards=$('actionCards');
+  const seaEl=document.querySelector(`[data-sea-index="${seaIndex}"]`);
+  if(!seaEl){
+    await showSingleAction(src, `${src} ${label(card)} 吃走 ${label(target)}`, card, 850, false);
+    return;
+  }
+  seaEl.classList.add('seaDim');
+  const pos=getTableRelativeRect(seaEl);
+  const targetEl=actionCard(target,'targetFloat');
+  const playedEl=actionCard(card,'playedFloat');
+  placeAt(targetEl,pos,0,0);
+  placeAt(playedEl,pos,0,0);
+  cards.appendChild(targetEl);
+  cards.appendChild(playedEl);
+  addToast(`${p.name} ${label(card)} 吃 ${label(target)}`,1150);
+  await sleep(1150);
+  targetEl.classList.add('collecting');
+  playedEl.classList.add('collecting');
+  await sleep(260);
+  clearActionArea();
+}
+async function showNoEatAction(card){
+  clearActionArea();
+  const cards=$('actionCards');
+  const seaBox=$('seaCards');
+  const pos=getTableRelativeRect(seaBox);
+  const el=actionCard(card,'noEatFloat');
+  placeAt(el,{left:pos.left+12,top:pos.top-106});
+  cards.appendChild(el);
+  addToast(`${label(card)} 放入海底`,900);
+  await sleep(850);
+  el.classList.add('collecting');
+  await sleep(180);
+  clearActionArea();
+}
+async function showDoubleRedFiveEffect(p){
+  const eff=$('bigEffect');
+  const table=document.querySelector('.table');
+  const sub=$('bigEffectSub');
+  if(sub) sub.textContent=`${p.name} 獲得雙紅五！`;
+  if(table){ table.classList.remove('shake'); void table.offsetWidth; table.classList.add('shake'); }
+  if(eff){ eff.classList.remove('show'); void eff.offsetWidth; eff.classList.add('show'); }
+  await sleep(1500);
+  if(eff) eff.classList.remove('show');
+  if(table) table.classList.remove('shake');
+}
+function rankVal(r){if(r==='A')return 1;if(['J','Q','K'].includes(r))return {J:11,Q:12,K:13}[r];if(r==='JOKER')return 0;return +r}
+function canEat(a,b){if(a.joker||b.joker)return false;let ra=a.rank,rb=b.rank;if(['10','J','Q','K'].includes(ra)||['10','J','Q','K'].includes(rb))return ra===rb;return rankVal(ra)+rankVal(rb)===10}
+function getEatOptions(card){let opts=[];state.sea.forEach((s,i)=>{if(canEat(card,s))opts.push(i)});return opts}
+function findEat(card){let opts=getEatOptions(card);if(!opts.length)return -1;opts.sort((ia,ib)=>cardScore(state.sea[ib],state.mode)-cardScore(state.sea[ia],state.mode));return opts[0]}
+function cardScore(c,m){if(!c||c.joker)return 0;if(c.red){if(c.rank==='A')return 20;if(['2','3','4','5','6','7','8'].includes(c.rank))return +c.rank;if(['9','10','J','Q','K'].includes(c.rank))return 10}if(c.rank==='A'){if(m.blackA==='all30')return 30;if(m.blackA==='split')return c.suit==='spade'?30:c.suit==='club'?40:0;if(m.blackA==='split30')return (c.suit==='spade'||c.suit==='club')?30:0}return 0}
+
+function clearActionArea(){
+  const area=$('actionArea'), title=$('actionTitle'), sub=$('actionSub'), cards=$('actionCards');
+  if(!area||!title||!sub||!cards)return;
+  title.textContent='';
+  sub.textContent='';
+  cards.className='actionCards';
+  cards.innerHTML='';
+  area.classList.remove('live');
+}
+function setAction(titleText, subText, kind='single'){
+  const cards=$('actionCards');
+  if(cards){ cards.className='actionCards '+kind; cards.innerHTML=''; }
+  return {cards};
+}
+function seaSlotPos(index){
+  const box=$('seaCards');
+  const pos=getTableRelativeRect(box);
+  const cardW=68, cardH=98, gap=10;
+  const perRow=Math.max(1, Math.floor((box.clientWidth + gap) / (cardW + gap)));
+  return {left:pos.left + (index % perRow) * (cardW + gap), top:pos.top + Math.floor(index/perRow) * (cardH + gap), width:cardW, height:cardH};
+}
+function deckStartPos(){
+  const deck=document.querySelector('.deckBox');
+  const pos=getTableRelativeRect(deck);
+  return {left:pos.left+pos.width/2-34, top:pos.top+42, width:68, height:98};
+}
+function playerStartPos(p){
+  const idx=state.players.indexOf(p);
+  const spots=document.querySelectorAll('.playerSpot');
+  const el=spots[idx] || document.querySelector('.playerSpot');
+  if(!el) return deckStartPos();
+  const pos=getTableRelativeRect(el);
+  return {left:pos.left+pos.width/2-34, top:pos.top+pos.height/2-49, width:68, height:98};
+}
+function moveOverlayCard(card, from, to, extraClass=''){
+  const cards=$('actionCards');
+  const el=actionCard(card, extraClass);
+  el.style.left=from.left+'px';
+  el.style.top=from.top+'px';
+  cards.appendChild(el);
+  el.getBoundingClientRect();
+  requestAnimationFrame(()=>{
+    el.style.left=to.left+'px';
+    el.style.top=to.top+'px';
+  });
+  return el;
+}
+async function showSingleAction(title, sub, card, ms=500, flip=false){
+  // 只保留翻牌亮一下的最低限度，不做中央布告欄。
+  clearActionArea();
+  const from=deckStartPos();
+  const el=moveOverlayCard(card, from, from, flip?'flipFloat':'');
+  await sleep(ms);
+  clearActionArea();
+}
+
+async function showDeckReveal(card, ms=520){
+  // 翻牌先在牌庫頂亮出 0.5 秒，再進入吃海底牌／放入海底的動畫。
+  clearActionArea();
+  const from=deckStartPos();
+  const el=moveOverlayCard(card, from, from, 'flipFloat');
+  el.style.boxShadow='0 0 18px #7bd3ff, 0 0 34px #7bd3ff, 0 12px 22px #000c';
+  msg(`翻出 ${label(card)}`);
+  await sleep(ms);
+  clearActionArea();
+}
+
+async function showCaptureAction(p, card, target, seaIndex, src){
+  // 真實撿紅點：海底牌不動，只把出的牌／翻到的牌壓在被吃的海底牌上。
+  clearActionArea();
+  render();
+  const seaEl=document.querySelector(`[data-sea-index="${seaIndex}"]`);
+  if(!seaEl){ await sleep(450); return; }
+  const pos=getTableRelativeRect(seaEl);
+  const to={left:pos.left+12, top:pos.top+16, width:68, height:98};
+  const from=(src==='翻牌') ? deckStartPos() : playerStartPos(p);
+  const el=moveOverlayCard(card, from, to, 'playedFloat');
+  msg(`${p.name} ${label(card)} 壓 ${label(target)}`);
+  await sleep(1050);
+  el.classList.add('collecting');
+  await sleep(180);
+  clearActionArea();
+}
+async function showNoEatAction(card, src='出牌'){
+  // 不能吃：牌飛到海底牌最後一格，之後才正式加入海底。
+  clearActionArea();
+  const idx=state.sea.length;
+  const to=seaSlotPos(idx);
+  const from=(src==='翻牌') ? deckStartPos() : playerStartPos(state.players[state.turn]);
+  const el=moveOverlayCard(card, from, to, src==='翻牌'?'flipFloat':'');
+  msg(`${label(card)} 放入海底`);
+  await sleep(650);
+  clearActionArea();
+}
+async function showDoubleRedFiveEffect(p){
+  const eff=$('bigEffect');
+  const table=document.querySelector('.table');
+  const sub=$('bigEffectSub');
+  const score=$('bigEffectScore');
+  if(sub) sub.textContent=`${p.name} 獲得雙紅五！`;
+  if(score) score.textContent=`雙紅五總值 70 分，其他玩家各 -20`;
+  if(table){ table.classList.remove('shake'); void table.offsetWidth; table.classList.add('shake'); }
+  if(eff){ eff.classList.remove('show'); void eff.offsetWidth; eff.classList.add('show'); }
+  msg(`雙紅五！${p.name} 大收分！`);
+  await sleep(1450);
+  if(eff) eff.classList.remove('show');
+  if(table) table.classList.remove('shake');
+}
+
 function recalcScores(){
   state.players.forEach(p=>{
     let base=p.captured.reduce((a,c)=>a+cardScore(c,state.mode),0);
@@ -108,12 +323,12 @@ function recalcScores(){
     }
   }
 }
-async function humanPlay(idx){if(busy||!state||state.ended||state.turn!==0)return;busy=true;await playTurn(0,idx,false);busy=false;if(!state.ended)runUntilHuman()}
-async function runUntilHuman(){if(!state||state.ended||busy)return;busy=true;while(!state.ended&&state.turn!==0){await sleep(aiDelay+Math.random()*700);await playTurn(state.turn,null,true)}busy=false;render()}
-async function autoEnd(){if(!state||state.ended)return;busy=true;while(!state.ended){if(state.turn!==0)await sleep(160);await playTurn(state.turn,null,true)}busy=false}
+async function humanPlay(idx){if(busy||!state||state.ended||state.turn!==0)return;busy=true;try{await playTurn(0,idx,false)}catch(e){console.error(e);msg('發生錯誤，已解除鎖定：'+e.message)}finally{busy=false}if(!state.ended)runUntilHuman()}
+async function runUntilHuman(){if(!state||state.ended||busy)return;busy=true;try{while(!state.ended&&state.turn!==0){await sleep(aiDelay+Math.random()*700);await playTurn(state.turn,null,true)}}catch(e){console.error(e);msg('AI流程錯誤，已解除鎖定：'+e.message)}finally{busy=false;render()}}
+async function autoEnd(){if(!state||state.ended)return;busy=true;try{while(!state.ended){if(state.turn!==0)await sleep(160);await playTurn(state.turn,null,true)}}catch(e){console.error(e);msg('快轉錯誤，已解除鎖定：'+e.message)}finally{busy=false}}
 function aiChoose(p){let best=0,bv=-999;for(let i=0;i<p.hand.length;i++){let c=p.hand[i], eat=findEat(c), v=cardScore(c,state.mode);if(eat>=0)v+=cardScore(state.sea[eat],state.mode)+20;if(c.red&&c.rank==='5'&&eat>=0&&state.sea[eat].red&&state.sea[eat].rank==='5')v+=100;v+=Math.random()*3;if(v>bv){bv=v;best=i}}return best}
-async function playTurn(pi,idx=null,isAI=false){let p=state.players[pi];if(!p||p.hand.length===0){nextTurn();return}idx=idx??aiChoose(p);let played=p.hand.splice(idx,1)[0];msg(`${p.name} 打出 ${label(played)}`);log(`${p.name} 打出 ${label(played)}`);await stepCapture(p,played,'出牌',isAI);await sleep(350);if(state.deck.length){let drawn=state.deck.pop();msg(`${p.name} 翻出 ${label(drawn)}`);log(`${p.name} 翻出 ${label(drawn)}`);await stepCapture(p,drawn,'翻牌',isAI)}recalcScores();if(checkEnd())return;nextTurn();render()}
-async function stepCapture(p,card,src,isAI=false){let opts=getEatOptions(card);let eat=-1;if(opts.length===1){eat=opts[0]}else if(opts.length>1){if(p===state.players[0]&&!isAI){eat=await askEatChoice(card,opts,src)}else{opts.sort((ia,ib)=>cardScore(state.sea[ib],state.mode)-cardScore(state.sea[ia],state.mode));eat=opts[0]}}if(eat>=0){let target=state.sea.splice(eat,1)[0];p.captured.push(card,target);log(`${p.name} ${src} ${label(card)} 吃走 ${label(target)}`,'hot');if(isDoubleRedFive(card,target)&&state.mode.doubleRedFive){log(`雙紅五成立！結算校正：其他玩家各扣 ${state.mode.doubleRedFive} 分。`,'danger')}await sleep(420)}else{state.sea.push(card);log(`${label(card)} 無牌可吃，留在海底。`)}recalcScores();render()}
+async function playTurn(pi,idx=null,isAI=false){let p=state.players[pi];if(!p||p.hand.length===0){nextTurn();return}idx=idx??aiChoose(p);let played=p.hand.splice(idx,1)[0];render();msg(`${p.name} 打出 ${label(played)}`);log(`${p.name} 打出 ${label(played)}`);await stepCapture(p,played,'出牌',isAI);await sleep(160);if(state.deck.length){let drawn=state.deck.pop();msg(`${p.name} 翻出 ${label(drawn)}`);log(`${p.name} 翻出 ${label(drawn)}`);await showDeckReveal(drawn,520);await stepCapture(p,drawn,'翻牌',isAI)}recalcScores();if(checkEnd())return;nextTurn();render()}
+async function stepCapture(p,card,src,isAI=false){let opts=getEatOptions(card);let eat=-1;if(opts.length===1){eat=opts[0]}else if(opts.length>1){if(p===state.players[0]&&!isAI){eat=await askEatChoice(card,opts,src)}else{opts.sort((ia,ib)=>cardScore(state.sea[ib],state.mode)-cardScore(state.sea[ia],state.mode));eat=opts[0]}}if(eat>=0){let target=state.sea[eat];await showCaptureAction(p,card,target,eat,src);target=state.sea.splice(eat,1)[0];p.captured.push(card,target);log(`${p.name} ${src} ${label(card)} 吃走 ${label(target)}`,'hot');if(isDoubleRedFive(card,target)&&state.mode.doubleRedFive){log(`雙紅五成立！結算校正：其他玩家各扣 ${state.mode.doubleRedFive} 分。`,'danger');recalcScores();render();await showDoubleRedFiveEffect(p)}}else{await showNoEatAction(card,src);state.sea.push(card);log(`${label(card)} 無牌可吃，留在海底。`)}recalcScores();render()}
 function askEatChoice(card,opts,src){return new Promise(resolve=>{const panel=$('choicePanel'), title=$('choiceTitle'), cards=$('choiceCards');title.textContent=`${src} ${label(card)} 可吃多張牌，請選擇要吃哪一張`;cards.innerHTML='';opts.forEach(i=>{let item=document.createElement('div');item.className='choiceItem';let target=state.sea[i];item.appendChild(cardEl(target));let cap=document.createElement('div');cap.style.marginTop='8px';cap.style.fontWeight='900';cap.textContent=`吃 ${label(target)}｜${cardScore(target,state.mode)}分`;item.appendChild(cap);item.onclick=()=>{panel.classList.remove('show');cards.innerHTML='';resolve(i)};cards.appendChild(item)});panel.classList.add('show')})}
 function applyTransfer(winner,amount,reason){state.players.forEach(p=>{if(p!==winner){p.bonus-=amount;winner.bonus+=amount}});log(`${reason}：${winner.name} 收取每家 ${amount} 分`,'hot')}
 function isDoubleRedFive(a,b){return a.red&&b.red&&a.rank==='5'&&b.rank==='5'}function label(c){return c.joker?'🃏':c.mark+c.rank}
